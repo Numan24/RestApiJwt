@@ -27,7 +27,7 @@ public class JWTService {
             SecretKey sk = keyGen.generateKey();
             secretkey = Base64.getEncoder().encodeToString(sk.getEncoded());
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Bad Algo used exception");
+            throw new RuntimeException(e);
         }
 
     }
