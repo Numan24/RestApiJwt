@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 public class AspectHandler {
 
     private final LoginValidator loginValidator;
+    private final RegistrationValidator registrationValidator;
 
     @Around("execution(* com.numan.ahmad.restjwt.controller.LoginController.login(..)) && args(user)")
     public Object validateUserLogin(ProceedingJoinPoint pjp, Users user) throws Throwable {
@@ -33,6 +34,31 @@ public class AspectHandler {
         Errors errors = new BeanPropertyBindingResult(user, "user");
         if (!Objects.isNull(user)) {
             ValidationUtils.invokeValidator(loginValidator, user, errors);
+        }
+
+        if (errors.hasErrors()) {
+            List<String> errorMessage = errors.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.toList());
+
+            log.error(String.join(", "), errorMessage);
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CustomErrorResponses.builder()
+                    .ok(false).error(String.join(", ", errorMessage))
+                    .build());
+        } else {
+            return pjp.proceed();
+        }
+
+    }
+
+
+    @Around("execution(* com.numan.ahmad.restjwt.controller.RegistrationController.register(..)) && args(user)")
+    public Object validateUserRegistration(ProceedingJoinPoint pjp, Users user) throws Throwable {
+
+        Errors errors = new BeanPropertyBindingResult(user, "user");
+        if (!Objects.isNull(user)) {
+            ValidationUtils.invokeValidator(registrationValidator, user, errors);
         }
 
         if (errors.hasErrors()) {

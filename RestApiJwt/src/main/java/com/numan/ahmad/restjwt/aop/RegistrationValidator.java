@@ -6,7 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-public class LoginValidator implements Validator {
+public class RegistrationValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
         return Users.class.isAssignableFrom(clazz);
