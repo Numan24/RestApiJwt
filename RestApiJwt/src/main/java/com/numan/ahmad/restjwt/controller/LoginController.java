@@ -2,6 +2,7 @@ package com.numan.ahmad.restjwt.controller;
 
 import com.numan.ahmad.restjwt.model.Users;
 import com.numan.ahmad.restjwt.service.LoginService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +19,8 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public String login(@RequestBody @Validated Users user) {
-        return service.verify(user);
+    public ResponseEntity<String> login(@RequestBody @Validated Users user) {
+        return ResponseEntity.ok().body(service.verify(user));
 
     }
 }
