@@ -29,7 +29,7 @@ two api are given to register and login the user if already not part system so h
     "status": "active"
 }
 
-once registered using name and password he can login using same credentials
+once registered he can login using same credentials
 {
     "nameofuser": "Ali",
     "password": "a#123"
